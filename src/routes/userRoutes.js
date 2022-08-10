@@ -1,8 +1,9 @@
 import {Router} from 'express';
-import { listPosts} from '../controller/userController.js'
+import { listUsers} from '../controllers/userController.js'
 
 const userRoute = Router();
 
-userRoute.get('/user/:id',listPosts)
+userRoute.get('/user/:id')
+userRoute.get('/users',listUsers)
 
 export default userRoute;
