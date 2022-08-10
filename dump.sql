@@ -41,6 +41,7 @@ CREATE TABLE "likes" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
 	"post_id" integer NOT NULL UNIQUE,
+	"like_flag" BOOLEAN,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "likes_pk" PRIMARY KEY ("id")
 ) WITH (
@@ -71,6 +72,7 @@ ALTER TABLE "likes" ADD CONSTRAINT "likes_fk0" FOREIGN KEY ("user_id") REFERENCE
 ALTER TABLE "likes" ADD CONSTRAINT "likes_fk1" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
 
 ALTER TABLE "hashtags" ADD CONSTRAINT "hashtags_fk0" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
+
 
 
 
