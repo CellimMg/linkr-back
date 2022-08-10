@@ -1,7 +1,7 @@
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" varchar(200) NOT NULL,
-	"email" varchar(30) NOT NULL,
+	"email" varchar(30) UNIQUE NOT NULL,
 	"password" TEXT NOT NULL,
 	"picture_url" TEXT NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
