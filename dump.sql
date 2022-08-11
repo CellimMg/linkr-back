@@ -1,7 +1,7 @@
 CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" varchar(200) NOT NULL,
-	"email" varchar(30) NOT NULL,
+	"email" varchar(30) UNIQUE NOT NULL,
 	"password" TEXT NOT NULL,
 	"picture_url" TEXT NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
@@ -23,8 +23,6 @@ CREATE TABLE "posts" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "sessions" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
@@ -34,8 +32,6 @@ CREATE TABLE "sessions" (
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "likes" (
 	"id" serial NOT NULL,
@@ -48,8 +44,6 @@ CREATE TABLE "likes" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "hashtags" (
 	"id" serial NOT NULL,
 	"hashtag" TEXT NOT NULL UNIQUE,
@@ -60,9 +54,6 @@ CREATE TABLE "hashtags" (
 ) WITH (
   OIDS=FALSE
 );
-
-
-
 
 ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
