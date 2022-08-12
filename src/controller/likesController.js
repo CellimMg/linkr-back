@@ -1,3 +1,4 @@
+import connection from '../dbStrategy/postgres.js';
 import {likesRepository} from '../repository/likesRepository.js'
 
 export async function postLike(req,res){
@@ -17,7 +18,7 @@ export async function getLikes(req,res){
         const postId = req.params.postId
     
         const likes =await likesRepository.likes(userId,postId)
-        
+        console.log(likes.rows)
         if(likes.rowCount === 1){
             return res.send(true)
         }else{
