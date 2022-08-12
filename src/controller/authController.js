@@ -3,6 +3,8 @@ import { create as createSession, read as readSession, update as updateSession }
 import bcrypt from "bcrypt";
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
+import dotenv from 'dotenv'
+dotenv.config();
 
 export async function signUp(req, res) {
     try {

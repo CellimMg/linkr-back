@@ -40,7 +40,7 @@ CREATE TABLE "sessions" (
 CREATE TABLE "likes" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
-	"post_id" integer NOT NULL UNIQUE,
+	"post_id" integer NOT NULL ,
 	"like_flag" BOOLEAN NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "likes_pk" PRIMARY KEY ("id")

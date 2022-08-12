@@ -1,12 +1,10 @@
-import connection from "../dbStrategy/postgres.js";
+import {likesRepository} from '../repository/likesRepository.js'
 
 export async function postLike(req,res){
     try{
-        // body { postId , userId}
         const {userId,postId} = req.body;
-    
-        await connection.query('INSERT INTO likes("user_id","post_id") VALUES($1,$2)',[userId,postId])
-        res.send('like')
+        await likesRepository.likePost(userId,postId)
+        res.sendStatus(200)
 
     }catch(error){
         console.log(error);
@@ -18,7 +16,8 @@ export async function getLikes(req,res){
         const userId = req.params.userId;
         const postId = req.params.postId
     
-        const likes = await connection.query(`SELECT * FROM likes WHERE user_id = $1 AND post_id = $2`,[userId,postId])
+        const likes =await likesRepository.likes(userId,postId)
+        
         if(likes.rowCount === 1){
             return res.send(true)
         }else{
@@ -33,12 +32,10 @@ export async function getLikes(req,res){
 }
 export async function unLike(req,res){
     try{
-        // body { postId , userId}
         const {userId,postId} = req.body;
-        
     
-        await connection.query('DELETE FROM likes WHERE user_id = $1 AND post_id = $2',[userId,postId])
-        res.send('like')
+        await likesRepository.unlike(userId,postId)
+        res.sendStatus(200)
 
     }catch(error){
         console.log(error);
