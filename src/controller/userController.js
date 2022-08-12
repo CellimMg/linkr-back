@@ -16,7 +16,10 @@ export async function userPosts(req,res){
     try{
         const userId = parseInt(req.params.id)
         const userPost = await userRepository.userPost(userId)
-        res.send(userPost)
+        if(userPost === 404){
+            return res.status(404).send('usuario não existe')
+        }
+       return res.send(userPost)
     }catch(error){        
         console.log(error);
         res.sendStatus(500);

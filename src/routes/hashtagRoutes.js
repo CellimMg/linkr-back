@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { readPostsByHashtag, readTrendingHashtags } from "../controllers/hashtagController.js";
+import { readPostsByHashtag, readTrendingHashtags } from "../controller/hashtagController.js";
 
 const hashtagRouter = Router();
 
