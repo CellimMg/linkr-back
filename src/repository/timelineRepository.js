@@ -17,7 +17,9 @@ const timelineRepository = {
         JOIN posts
         ON users.id = posts.user_id
         JOIN likes
-        ON posts.id = likes.post_id`);
+        ON posts.id = likes.post_id
+        ORDER BY posts.id DESC
+        LIMIT 20`);
 
         return rows;
     }
