@@ -6,5 +6,6 @@ const timelineRoutes = Router();
 
 timelineRoutes.post("/timeline", timelineMiddleware.validateSavePost, timelineController.savePost);
 timelineRoutes.get("/timeline", timelineController.getTimelinePosts);
+timelineRoutes.delete("/timeline", timelineController.deletePost);
 
 export default timelineRoutes;
