@@ -1,11 +1,11 @@
 import connection from "../dbStrategy/postgres.js";
 
 const timelineRepository = {
-    savePost: async (postData, userId, title, image, urlDescription) => {
-        const { rows } = await connection.query(`INSERT INTO posts (user_id, link_url, description, url_title, url_description, url_image) VALUES ($1, $2, $3, $4, $5, $6) returning id`, [userId, postData.link, postData.description, title, urlDescription, image]);
+    savePost: async (postData, title, image, urlDescription) => {
+        const { rows } = await connection.query(`INSERT INTO posts (user_id, link_url, description, url_title, url_description, url_image) VALUES ($1, $2, $3, $4, $5, $6) returning id`, [postData.userId, postData.link, postData.description, title, urlDescription, image]);
 
         if(rows.length > 0){
-            await connection.query(`INSERT INTO likes (user_id, post_id) VALUES ($1, $2)`, [userId, rows[0].id]);
+            await connection.query(`INSERT INTO likes (user_id, post_id) VALUES ($1, $2)`, [postData.userId, rows[0].id]);
         }
         
     },

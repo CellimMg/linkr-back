@@ -7,12 +7,13 @@ const timelineController = {
             // Check if user exists and is authenticated
             const checkIfUserExists = true;
             const userId = 1;
+            console.log(req.body);
             // If user is authenticated, savePost
             if(checkIfUserExists){
                 console.log(req.body);
                 const urlMeta = await urlMetadata(req.body.link);
                 console.log(urlMeta);
-                await timelineRepository.savePost(req.body, userId, urlMeta.title, urlMeta.image, urlMeta.description);
+                await timelineRepository.savePost(req.body, urlMeta.title, urlMeta.image, urlMeta.description);
                 res.sendStatus(201); 
             }else{
                 res.sendStatus(401);
