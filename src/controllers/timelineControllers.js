@@ -49,7 +49,7 @@ const timelineController = {
             // If user is authenticated, deletePost
             if(checkIfUserExists){
                 const postId = req.body.postId;
-                await timelineRepository.deletePost(postId);
+                await timelineRepository.deletePost(userId, postId);
                 res.sendStatus(200); 
             }else{
                 res.sendStatus(401);

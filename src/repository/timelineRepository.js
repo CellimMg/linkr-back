@@ -25,7 +25,7 @@ const timelineRepository = {
     },
 
     deletePost: async (postId) => {
-        const { rows } = await connection.query(`SELECT * FROM posts WHERE id = $1`, [postId]);
+        const { rows } = await connection.query(`SELECT * FROM posts WHERE id = $1 AND user_id = $2 `, [postId, userId]);
 
         if(rows.length > 0){
             await connection.query(`DELETE FROM posts WHERE id= $1`, [postId]);
