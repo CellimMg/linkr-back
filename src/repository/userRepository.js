@@ -5,8 +5,13 @@ async function searchUsers(search){
 }
 async function userPost(userId){
     const {rows:userData} = await connection.query(`SELECT name,picture_url FROM users WHERE id = $1`,[userId])
-    const {rows:posts} = await connection.query(`SELECT * FROM posts
+    if(userData.length === 0){
+        return (404)
+    }
+    const {rows:posts} = await connection.query(`SELECT posts.id AS "postId", posts.link_url AS link, posts.description
+    FROM posts
     WHERE posts.user_id = $1`,[userId])
+
     const data = {
         name:userData[0].name,
         picture:userData[0].picture_url,

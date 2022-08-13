@@ -10,7 +10,7 @@ export async function readPostsByHashtag(req, res) {
         return res.sendStatus(404); 
       }
     
-      const [posts] = result.rows;
+      const posts = result.rows;
     
       res.send(posts);
     } catch (error) {
@@ -22,14 +22,12 @@ export async function readPostsByHashtag(req, res) {
 
 export async function readTrendingHashtags(req, res) {
     try {
-      const result = await hashtagRepository.getTrendingHashtags(hashtag);
+      const result = await hashtagRepository.getTrendingHashtags();
       if(result.rowCount === 0) {
         return res.sendStatus(404); 
       }
     
-      const [list] = result.rows;
-    
-      res.send(list);
+      res.send(result.rows);
     } catch (error) {
       console.log(error);
       return res.sendStatus(500); 

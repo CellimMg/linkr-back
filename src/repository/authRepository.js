@@ -13,3 +13,13 @@ export async function create(userData) {
         throw "UNEXPECTED_ERROR";
     }
 }
+
+export async function read(userData) {
+    try {
+        const { email } = userData;
+        const { rows } = await connection.query(`SELECT * FROM "users" WHERE "users".email = $1`, [email]);
+        return rows;
+    } catch (error) {
+        throw "UNEXPECTED_ERROR";
+    }
+}
