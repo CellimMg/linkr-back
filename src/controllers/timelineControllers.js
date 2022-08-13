@@ -7,6 +7,7 @@ const timelineController = {
             // Check if user exists and is authenticated
             const checkIfUserExists = true;
             const userId = 1;
+            console.log(req.body);
             // If user is authenticated, savePost
             if(checkIfUserExists){
                 console.log(req.body);
@@ -18,6 +19,7 @@ const timelineController = {
                 const hashtagData = body.descriptionsplit(' ').filter(v=> v.startsWith('#'));
                 console.log(hashtagData);
 
+                await timelineRepository.savePost(req.body, urlMeta.title, urlMeta.image, urlMeta.description);
                 res.sendStatus(201); 
             }else{
                 res.sendStatus(401);
