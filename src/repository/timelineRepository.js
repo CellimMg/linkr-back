@@ -1,8 +1,8 @@
 import connection from "../dbStrategy/postgres.js";
 
 const timelineRepository = {
-    savePost: async (postData, userId) => {
-        const { rows } = await connection.query(`INSERT INTO posts (user_id, link_url, description) VALUES ($1, $2, $3) returning id`, [userId, postData.link, postData.description]);
+    savePost: async (postData, userId, title, image, urlDescription) => {
+        const { rows } = await connection.query(`INSERT INTO posts (user_id, link_url, description, url_title, url_description, url_image) VALUES ($1, $2, $3, $4, $5, $6) returning id`, [userId, postData.link, postData.description, title, urlDescription, image]);
 
         if(rows.length > 0){
             await connection.query(`INSERT INTO likes (user_id, post_id) VALUES ($1, $2)`, [userId, rows[0].id]);
@@ -11,7 +11,7 @@ const timelineRepository = {
     },
     getTimelinePosts: async () => {
         const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
-        posts.id AS "postId", posts.link_url AS "link", posts.description,
+        posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
         likes.count AS "likes" 
         FROM users
         JOIN posts

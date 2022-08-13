@@ -17,6 +17,9 @@ CREATE TABLE "posts" (
 	"user_id" integer NOT NULL,
 	"link_url" TEXT NOT NULL,
 	"description" TEXT NOT NULL,
+	"url_title" TEXT NOT NULL,
+	"url_description" TEXT NOT NULL,
+	"url_image" TEXT NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "posts_pk" PRIMARY KEY ("id")
 ) WITH (

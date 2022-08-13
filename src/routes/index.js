@@ -4,6 +4,6 @@ import userRoutes from './userRoutes.js';
 const router = Router();
 
 router.use(timelineRoutes);
-router.use(userRoutes)
+router.use(userRoutes);
 
 export default router;

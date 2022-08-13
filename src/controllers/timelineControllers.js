@@ -1,5 +1,5 @@
 import timelineRepository from "../repository/timelineRepository.js";
-
+import urlMetadata from "url-metadata";
 
 const timelineController = {
     savePost: async (req, res) => {
@@ -10,7 +10,9 @@ const timelineController = {
             // If user is authenticated, savePost
             if(checkIfUserExists){
                 console.log(req.body);
-                await timelineRepository.savePost(req.body, userId);
+                const urlMeta = await urlMetadata(req.body.link);
+                console.log(urlMeta);
+                await timelineRepository.savePost(req.body, userId, urlMeta.title, urlMeta.image, urlMeta.description);
                 res.sendStatus(201); 
             }else{
                 res.sendStatus(401);
@@ -34,6 +36,7 @@ const timelineController = {
             }
 
         } catch (error) {
+            console.log(error);
             res.sendStatus(500);
         }
     }
