@@ -6,13 +6,9 @@ const timelineController = {
         try {
             // Check if user exists and is authenticated
             const checkIfUserExists = true;
-            const userId = 1;
-            console.log(req.body);
             // If user is authenticated, savePost
             if(checkIfUserExists){
-                console.log(req.body);
                 const urlMeta = await urlMetadata(req.body.link);
-                console.log(urlMeta);
                 await timelineRepository.savePost(req.body, urlMeta.title, urlMeta.image, urlMeta.description);
                 res.sendStatus(201); 
             }else{
@@ -44,6 +40,22 @@ const timelineController = {
 
     deletePost: async (req, res) => {
         try {
+            const deletePost = await timelineRepository.deletePost(req.params.id);
+            res.sendStatus(deletePost);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
+    },
+    updatePost: async (req, res) => {
+        try {
+            const updatedDescription = req.body.description;
+            const updatePost = await timelineRepository.updatePost(req.params.id, updatedDescription);
+            res.sendStatus(updatePost);
+
+
+    deletePost: async (req, res) => {
+        try {
             // Check if user exists and is authenticated
             const checkIfUserExists = true;
             const userId = req.body.userId;
@@ -56,6 +68,7 @@ const timelineController = {
                 res.sendStatus(401);
             }
                        
+
         } catch (error) {
             console.log(error);
             res.sendStatus(500);

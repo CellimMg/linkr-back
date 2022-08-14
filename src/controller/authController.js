@@ -3,7 +3,8 @@ import { create as createSession, read as readSession, update as updateSession }
 import bcrypt from "bcrypt";
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+
 dotenv.config();
 
 export async function signUp(req, res) {
@@ -52,6 +53,7 @@ export async function signIn(req, res) {
             case "EMAIL_NOT_FOUND":
                 return res.status(401).send({ message: "E-mail e/ou senha incorretos!" });
             default:
+                console.log(error);
                 return res.sendStatus(500);
         }
     }

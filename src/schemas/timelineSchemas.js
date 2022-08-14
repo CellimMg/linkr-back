@@ -8,4 +8,8 @@ const validateTimelinePostSchema = Joi.object().keys({
     link: Joi.string().uri().required()
 });
 
-export default validateTimelinePostSchema;
+const validateUpdatePostSchema = Joi.object().keys({
+    description: Joi.string().min(0)
+})
+
+export default { validateTimelinePostSchema, validateUpdatePostSchema };
