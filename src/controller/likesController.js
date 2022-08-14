@@ -1,3 +1,4 @@
+import connection from '../dbStrategy/postgres.js';
 import {likesRepository} from '../repository/likesRepository.js'
 
 export async function postLike(req,res){
@@ -17,7 +18,6 @@ export async function getLikes(req,res){
         const postId = req.params.postId
     
         const likes =await likesRepository.likes(userId,postId)
-        
         if(likes.rowCount === 1){
             return res.send(true)
         }else{
@@ -41,4 +41,27 @@ export async function unLike(req,res){
         console.log(error);
         res.sendStatus(500);
     }
+}
+
+export async function whoLikes(req,res){
+    const postId = req.params.postId
+    const userId = parseInt(req.params.userId);
+    const resposta = {
+        names:[],
+        quantyLikes: 0
+    }
+    const likesNames = await likesRepository.likesNames(postId)
+
+    likesNames.map((e)=> {
+        if(e.user_id === userId){
+            resposta.names.unshift('Você')
+        }else{
+            resposta.names.push(e.name)
+        }
+        
+        resposta.numero ++ 
+
+    })
+
+    res.send(resposta)
 }
