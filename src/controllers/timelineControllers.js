@@ -11,9 +11,7 @@ const timelineController = {
             console.log(req.body);
             // If user is authenticated, savePost
             if(checkIfUserExists){
-
                 const urlMeta = await urlMetadata(req.body.link);
-                //console.log(urlMeta);
                 await timelineRepository.savePost(req.body, urlMeta.title, urlMeta.image, urlMeta.description);
 
                 const hashtags = body.description.split(' ').filter(v=> v.startsWith('#'));
@@ -23,14 +21,14 @@ const timelineController = {
                 res.sendStatus(201); 
             }else{
                 res.sendStatus(401);
-            }
-                       
+            } 
         } catch (error) {
             console.log(error);
             res.sendStatus(500);
         }
 
     },
+
     getTimelinePosts: async (req, res) => {
         try {
             
@@ -47,6 +45,18 @@ const timelineController = {
             res.sendStatus(500);
         }
     },
+
+    updatePost: async (req, res) => {
+        try {
+            const updatedDescription = req.body.description;
+            const updatePost = await timelineRepository.updatePost(req.params.id, updatedDescription);
+            res.sendStatus(updatePost); 
+        }  catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
+    },
+
 
     deletePost: async (req, res) => {
         try {
@@ -66,7 +76,6 @@ const timelineController = {
             console.log(error);
             res.sendStatus(500);
         }
-
     }
 }
 

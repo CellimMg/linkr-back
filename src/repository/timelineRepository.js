@@ -39,6 +39,15 @@ const timelineRepository = {
         return rows;
     },
 
+    updatePost: async (postId, postDescription) => {
+        const updatedDescription = await connection.query(`UPDATE posts SET description = $1 WHERE id = $2`, [postDescription, postId]);
+        if(updatedDescription.rowCount > 0){
+            return 204;
+        }else{
+            return 404;
+        }
+    },
+
     deletePost: async (postId) => {
         const { rows } = await connection.query(`SELECT * FROM posts WHERE id = $1 AND user_id = $2 `, [postId, userId]);
 
@@ -47,6 +56,6 @@ const timelineRepository = {
         }
         
     }
-}
+} 
 
 export default timelineRepository;
