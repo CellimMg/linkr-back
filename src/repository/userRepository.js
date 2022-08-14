@@ -8,7 +8,8 @@ async function userPost(userId){
     if(userData.length === 0){
         return (404)
     }
-    const {rows:posts} = await connection.query(`SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes
+    const {rows:posts} = await connection.query(`
+    SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes
     FROM posts 
     JOIN likes ON posts.id = likes.post_id 
     WHERE posts.user_id = $1

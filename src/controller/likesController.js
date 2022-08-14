@@ -18,7 +18,6 @@ export async function getLikes(req,res){
         const postId = req.params.postId
     
         const likes =await likesRepository.likes(userId,postId)
-        console.log(likes.rows)
         if(likes.rowCount === 1){
             return res.send(true)
         }else{
@@ -42,4 +41,30 @@ export async function unLike(req,res){
         console.log(error);
         res.sendStatus(500);
     }
+}
+
+export async function whoLikes(req,res){
+    const postId = req.params.postId
+    const userId = parseInt(req.params.userId);
+    const resposta = {
+        names:[],
+        numero: 0
+    }
+    const {rows:teste} = await connection.query(`
+    SELECT likes.*,users.name FROM likes
+    JOIN users ON likes.user_id = users.id
+    WHERE likes.post_id = ${postId}
+    `)
+    teste.map((e)=> {
+        if(e.user_id === userId){
+            resposta.names.unshift('Você')
+        }else{
+            resposta.names.push(e.name)
+        }
+        
+        resposta.numero ++ 
+
+    })
+
+    res.send(resposta)
 }
