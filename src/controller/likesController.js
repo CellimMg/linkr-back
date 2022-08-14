@@ -51,8 +51,7 @@ export async function whoLikes(req,res){
         quantyLikes: 0
     }
     const likesNames = await likesRepository.likesNames(postId)
-
-    likesNames.map((e)=> {
+    likesNames.rows.map((e)=> {
         if(e.user_id === userId){
             resposta.names.unshift('Você')
         }else{
