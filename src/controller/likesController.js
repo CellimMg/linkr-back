@@ -48,15 +48,11 @@ export async function whoLikes(req,res){
     const userId = parseInt(req.params.userId);
     const resposta = {
         names:[],
-        numero: 0
+        quantyLikes: 0
     }
-    const {rows:teste} = await connection.query(`
-    SELECT likes.*,users.name FROM likes
-    JOIN users ON likes.user_id = users.id
-    WHERE likes.post_id = ${postId}
-    `)
-    
-    teste.map((e)=> {
+    const likesNames = await likesRepository.likesNames(postId)
+
+    likesNames.map((e)=> {
         if(e.user_id === userId){
             resposta.names.unshift('Você')
         }else{
