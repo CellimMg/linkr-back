@@ -55,6 +55,7 @@ export async function whoLikes(req,res){
     JOIN users ON likes.user_id = users.id
     WHERE likes.post_id = ${postId}
     `)
+    
     teste.map((e)=> {
         if(e.user_id === userId){
             resposta.names.unshift('Você')
