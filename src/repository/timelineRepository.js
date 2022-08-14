@@ -22,6 +22,23 @@ const timelineRepository = {
         LIMIT 20`);
 
         return rows;
+    },
+    deletePost: async (postId) => {
+        const deleteLikes = await connection.query(`DELETE FROM likes WHERE post_id = $1`, [postId]);
+        if(deleteLikes.rowCount > 0){
+            await connection.query(`DELETE FROM posts WHERE id = $1`, [postId]);
+            return 204;
+        }else{
+            return 404;
+        }
+    },
+    updatePost: async (postId, postDescription) => {
+        const updatedDescription = await connection.query(`UPDATE posts SET description = $1 WHERE id = $2`, [postDescription, postId]);
+        if(updatedDescription.rowCount > 0){
+            return 204;
+        }else{
+            return 404;
+        }
     }
 }
 

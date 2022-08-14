@@ -40,6 +40,25 @@ const timelineController = {
             console.log(error);
             res.sendStatus(500);
         }
+    },
+    deletePost: async (req, res) => {
+        try {
+            const deletePost = await timelineRepository.deletePost(req.params.id);
+            res.sendStatus(deletePost);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
+    },
+    updatePost: async (req, res) => {
+        try {
+            const updatedDescription = req.body.description;
+            const updatePost = await timelineRepository.updatePost(req.params.id, updatedDescription);
+            res.sendStatus(updatePost);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
     }
 }
 
