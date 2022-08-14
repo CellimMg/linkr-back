@@ -10,5 +10,7 @@ timelineRoutes.post("/timeline", timelineMiddleware.validateSavePost, timelineCo
 timelineRoutes.get("/timeline", timelineController.getTimelinePosts);
 timelineRoutes.delete("/timeline/:id", timelineController.deletePost);
 timelineRoutes.patch("/timeline/:id", schemaValidate(timelineSchemas.validateUpdatePostSchema), timelineController.updatePost);
+timelineRoutes.delete("/timeline", timelineController.deletePost);
+
 
 export default timelineRoutes;
