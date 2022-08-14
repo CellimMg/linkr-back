@@ -6,14 +6,20 @@ const timelineController = {
         try {
             // Check if user exists and is authenticated
             const checkIfUserExists = true;
-            const userId = 1;
+            const body = req.body;
+            const userId = body.userId;
             console.log(req.body);
             // If user is authenticated, savePost
             if(checkIfUserExists){
-                console.log(req.body);
+
                 const urlMeta = await urlMetadata(req.body.link);
-                console.log(urlMeta);
+                //console.log(urlMeta);
                 await timelineRepository.savePost(req.body, urlMeta.title, urlMeta.image, urlMeta.description);
+
+                const hashtags = body.description.split(' ').filter(v=> v.startsWith('#'));
+                const hashtagStrings = hashtags.map(i => i.split('#')[1]);
+                hashtagStrings.map(string => timelineRepository.saveHashtag(string, userId));
+
                 res.sendStatus(201); 
             }else{
                 res.sendStatus(401);
