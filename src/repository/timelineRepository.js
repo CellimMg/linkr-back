@@ -31,11 +31,12 @@ const timelineRepository = {
         FROM users
         JOIN posts
         ON users.id = posts.user_id
-        JOIN likes
+        LEFT JOIN likes
         ON posts.id = likes.post_id
+       GROUP BY users.id,posts.id
         ORDER BY posts.id DESC
         LIMIT 20`);
-
+         
         return rows;
     },
 
