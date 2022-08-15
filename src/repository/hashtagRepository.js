@@ -2,7 +2,7 @@ import connection from "../dbStrategy/postgres.js";
 
 async function getPostsByHashtag(hashtag) {
     const {rows:userData} = await connection.query(`
-    SELECT name, picture_url 
+    SELECT users.id AS id, name, picture_url 
 	FROM users 
     JOIN posts ON posts.user_id = users.id
 	JOIN "hashtags-posts" ON posts.id = "hashtags-posts".post_id
@@ -24,6 +24,7 @@ async function getPostsByHashtag(hashtag) {
     `,[hashtag]) 
     
     const data = {
+        id: userData[0].id,
         name:userData[0].name,
         picture:userData[0].picture_url,
         posts
