@@ -5,7 +5,7 @@ const timelineRepository = {
         const { rows } = await connection.query(`INSERT INTO posts (user_id, link_url, description, url_title, url_description, url_image) VALUES ($1, $2, $3, $4, $5, $6) returning id`, [postData.userId, postData.link, postData.description, title, urlDescription, image]);
 
         if(rows.length > 0){
-            await connection.query(`INSERT INTO likes (user_id, post_id, like_flag) VALUES ($1, $2, $3)`, [postData.userId, rows[0].id, false]);
+            await connection.query(`INSERT INTO likes (user_id, post_id) VALUES ($1, $2)`, [postData.userId, rows[0].id]);
         }
         
     },
