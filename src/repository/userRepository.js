@@ -9,7 +9,7 @@ async function userPost(userId){
         return (404)
     }
     const {rows:posts} = await connection.query(`
-    SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes
+    SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes,url_title As "urlTitle", url_image AS "urlImage", url_description AS "urlDescription"
     FROM posts 
     LEFT JOIN likes ON likes.post_id = posts.id
     WHERE posts.user_id = $1
