@@ -8,9 +8,8 @@ const timelineRoutes = Router();
 
 timelineRoutes.post("/timeline", timelineMiddleware.validateSavePost, timelineController.savePost);
 timelineRoutes.get("/timeline", timelineController.getTimelinePosts);
-//timelineRoutes.delete("/timeline/:id", timelineController.deletePost);
+timelineRoutes.delete("/timeline/:id", timelineController.deletePost);
 timelineRoutes.patch("/timeline/:id", schemaValidate(timelineSchemas.validateUpdatePostSchema), timelineController.updatePost);
-timelineRoutes.delete("/timeline", timelineController.deletePost);
 
 
 export default timelineRoutes;
