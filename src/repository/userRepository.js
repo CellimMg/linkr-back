@@ -11,10 +11,11 @@ async function userPost(userId){
     const {rows:posts} = await connection.query(`
     SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes
     FROM posts 
-    JOIN likes ON posts.id = likes.post_id 
+    LEFT JOIN likes ON likes.post_id = posts.id
     WHERE posts.user_id = $1
-    GROUP BY posts.id`,[userId])
-
+    GROUP BY posts.id
+    `,[userId]) 
+    
     const data = {
         name:userData[0].name,
         picture:userData[0].picture_url,
