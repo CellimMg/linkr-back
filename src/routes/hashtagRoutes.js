@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { readPostsByHashtag, readTrendingHashtags } from "../controller/hashtagController.js";
+import { tokenValidation } from '../middlewares/authMiddleware.js';
 
 const hashtagRouter = Router();
 
-hashtagRouter.get("/timeline/:hashtag", readPostsByHashtag); // ao clicar em uma hashtag, seja no post ou na Trending, recebe lista dos posts com a hashtag
-hashtagRouter.get("/hashtags", readTrendingHashtags); //retorna apenas o nome das 10 hashtags mais recorrentes
+hashtagRouter.get("/timeline/:hashtag", tokenValidation, readPostsByHashtag); 
+hashtagRouter.get("/hashtags", tokenValidation, readTrendingHashtags); 
 
 export default hashtagRouter;
