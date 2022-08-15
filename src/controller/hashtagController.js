@@ -10,9 +10,7 @@ export async function readPostsByHashtag(req, res) {
         return res.sendStatus(404); 
       }
     
-      const posts = result.rows;
-    
-      res.send(posts);
+      res.send(result);
     } catch (error) {
       console.log(error);
       return res.sendStatus(500); 

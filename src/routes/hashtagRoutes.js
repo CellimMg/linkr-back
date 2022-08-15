@@ -5,6 +5,6 @@ import { tokenValidation } from '../middlewares/authMiddleware.js';
 const hashtagRouter = Router();
 
 hashtagRouter.get("/timeline/:hashtag", tokenValidation, readPostsByHashtag); 
-hashtagRouter.get("/hashtags", tokenValidation, readTrendingHashtags); 
+hashtagRouter.get("/hashtags", readTrendingHashtags); 
 
 export default hashtagRouter;

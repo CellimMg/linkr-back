@@ -14,7 +14,7 @@ async function userPost(userId){
     LEFT JOIN likes ON likes.post_id = posts.id
     WHERE posts.user_id = $1
     GROUP BY posts.id
-    `,[userId])
+    `,[userId]) 
     
     const data = {
         name:userData[0].name,
