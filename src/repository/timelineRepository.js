@@ -42,6 +42,7 @@ const timelineRepository = {
 
     updatePost: async (postId, postDescription) => {
         const updatedDescription = await connection.query(`UPDATE posts SET description = $1 WHERE id = $2`, [postDescription, postId]);
+        console.log(updatedDescription);
         if(updatedDescription.rowCount > 0){
             return 204;
         }else{
