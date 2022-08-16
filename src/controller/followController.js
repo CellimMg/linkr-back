@@ -17,7 +17,7 @@ export async function readFollowRelation(req, res) {
     
   }
 
-  export async function writeFollowRelation(req, res) {
+export async function writeFollowRelation(req, res) {
     const { follows, userId, followedId } = req.body;
     
     try {

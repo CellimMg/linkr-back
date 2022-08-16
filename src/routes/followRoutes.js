@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { readFollowRelation } from "../controller/followController.js";
+import { readFollowRelation, writeFollowRelation } from "../controller/followController.js";
 import { tokenValidation } from '../middlewares/authMiddleware.js';
 
 const followRouter = Router();
