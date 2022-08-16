@@ -75,6 +75,18 @@ CREATE TABLE "hashtags-posts" (
 );
 
 
+CREATE TABLE "follows" (
+	"id" serial NOT NULL,
+	"follower_id" integer NOT NULL,
+	"followed_id" integer NOT NULL,
+	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
+	CONSTRAINT "follows_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
 
 
 ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
@@ -84,11 +96,11 @@ ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("user_id") REF
 ALTER TABLE "likes" ADD CONSTRAINT "likes_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 ALTER TABLE "likes" ADD CONSTRAINT "likes_fk1" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
 
-
 ALTER TABLE "hashtags-posts" ADD CONSTRAINT "hashtags-posts_fk0" FOREIGN KEY ("hashtag_id") REFERENCES "hashtags"("id");
 ALTER TABLE "hashtags-posts" ADD CONSTRAINT "hashtags-posts_fk1" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
 
-
+ALTER TABLE "follows" ADD CONSTRAINT "follows_fk0" FOREIGN KEY ("follower_id") REFERENCES "users"("id");
+ALTER TABLE "follows" ADD CONSTRAINT "follows_fk1" FOREIGN KEY ("followed_id") REFERENCES "users"("id");
 
 
 
