@@ -12,5 +12,4 @@ timelineRoutes.get("/timeline", tokenValidation, timelineController.getTimelineP
 timelineRoutes.delete("/timeline/:id", tokenValidation, timelineController.deletePost);
 timelineRoutes.patch("/timeline/:id", tokenValidation, schemaValidate(timelineSchemas.validateUpdatePostSchema), timelineController.updatePost);
 
-
 export default timelineRoutes;

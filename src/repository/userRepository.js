@@ -8,10 +8,16 @@ async function userPost(userId){
     if(userData.length === 0){
         return (404)
     }
-    const {rows:posts} = await connection.query(`SELECT posts.id AS "postId", posts.link_url AS link, posts.description
-    FROM posts
-    WHERE posts.user_id = $1`,[userId])
-
+    const {rows:posts} = await connection.query(`
+    SELECT posts.id AS "postId", posts.link_url AS link, posts.description, COUNT(likes) AS likes,url_title As "urlTitle", url_image AS "urlImage", url_description AS "urlDescription",
+    (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes"
+    FROM posts 
+    LEFT JOIN likes ON likes.post_id = posts.id
+    WHERE posts.user_id = $1
+    
+    GROUP BY posts.id
+    `,[userId])  
+    
     const data = {
         name:userData[0].name,
         picture:userData[0].picture_url,
