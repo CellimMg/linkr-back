@@ -27,7 +27,8 @@ const timelineRepository = {
     getTimelinePosts: async () => {
         const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
         posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
-        likes.count AS "likes" 
+        likes.count AS "likes",
+        (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes"
         FROM users
         JOIN posts
         ON users.id = posts.user_id
