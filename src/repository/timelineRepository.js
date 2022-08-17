@@ -34,7 +34,7 @@ const timelineRepository = {
         ON users.id = posts.user_id
         LEFT JOIN likes
         ON posts.id = likes.post_id
-       GROUP BY users.id,posts.id
+        GROUP BY users.id,posts.id
         ORDER BY posts.id DESC
         LIMIT 20`);
          
@@ -50,14 +50,15 @@ const timelineRepository = {
             return 404;
         }
     },
-
     deletePost: async (postId) => {
-        const { rows } = await connection.query(`SELECT * FROM posts WHERE id = $1 AND user_id = $2 `, [postId, userId]);
-
-        if(rows.length > 0){
-            await connection.query(`DELETE FROM posts WHERE id= $1`, [postId]);
+        const deleteLikes = await connection.query(`DELETE FROM likes WHERE post_id = $1`, [postId]);
+        console.log(deleteLikes);
+        if(deleteLikes.rowCount > 0){
+            await connection.query(`DELETE FROM posts WHERE id = $1`, [postId]);
+            return 204;
+        }else{
+            return 404;
         }
-        
     }
 } 
 
