@@ -43,18 +43,8 @@ const timelineController = {
 
     deletePost: async (req, res) => {
         try {
-            // Check if user exists and is authenticated
-            const checkIfUserExists = true;
-            const userId = req.body.userId;
-            // If user is authenticated, deletePost
-            if(checkIfUserExists){
-                const postId = req.body.postId;
-                await timelineRepository.deletePost(userId, postId);
-                res.sendStatus(200); 
-            }else{
-                res.sendStatus(401);
-            }
-                       
+            const deletePost = await timelineRepository.deletePost(req.params.id);
+            res.sendStatus(deletePost);
         } catch (error) {
             console.log(error);
             res.sendStatus(500);

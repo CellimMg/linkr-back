@@ -20,6 +20,7 @@ export async function read(userData) {
         const { rows } = await connection.query(`SELECT * FROM "users" WHERE "users".email = $1`, [email]);
         return rows;
     } catch (error) {
+        console.log(error)
         throw "UNEXPECTED_ERROR";
     }
 }
