@@ -1,15 +1,29 @@
 import followRepository from "../repository/followRepository.js";
 
 export async function readFollowRelation(req, res) {
-    const { userId, followedId } = req.body;
+  
+    const { followedId } = req.params;
+    const auth = req.headers.authorization;
+    const token = auth.split(" ")[1];
+    
+    console.log(token);
+    console.log(followedId);
     
     try {
-      const result = await followRepository.getFollowRelation(userId, followedId);
+      const result = await followRepository.getFollowRelation(token, followedId);
+      console.log(result.rows);
       if(result.rowCount === 0) {
-        return res.send(false).status(404); 
+        const data = {
+          relation: false
+        }
+        return res.send(data).status(404); 
+      }
+
+      const data = {
+        relation: true
       }
     
-      res.send(true).status(302);
+      res.send(data).status(302);
     } catch (error) {
       console.log(error);
       return res.sendStatus(500); 
@@ -18,6 +32,7 @@ export async function readFollowRelation(req, res) {
   }
 
 export async function writeFollowRelation(req, res) {
+  console.log(req.body);
     const { follows, userId, followedId } = req.body;
     
     try {
