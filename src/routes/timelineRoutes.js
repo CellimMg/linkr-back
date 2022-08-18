@@ -1,5 +1,5 @@
 import { Router } from "express";
-import timelineController from "../controllers/timelineControllers.js";
+import timelineController from "../controller/timelineController.js";
 import timelineMiddleware from "../middlewares/timelineMiddlewares.js";
 import { schemaValidate } from "../middlewares/schemaValidateMiddleware.js";
 import timelineSchemas from "../schemas/timelineSchemas.js";
