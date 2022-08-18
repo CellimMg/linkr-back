@@ -30,21 +30,25 @@ const timelineController = {
     },
 
     getTimelinePosts: async (req, res) => {
-        try {
-            const { date } = req.query;
-            let timelineData;
+        const auth = req.headers.authorization;
+        const token = auth.split(" ")[1];
+        const { date } = req.query;
 
-            if (!date) timelineData = await timelineRepository.getTimelinePosts();
-            else timelineData = await timelineRepository.getTimelinePostsSince(date);
+        try {
+            let timelineData;
+            const isFollowing = await timelineRepository.isFollowing(token);
+
+            if (!date) timelineData = await timelineRepository.getTimelinePosts(token);
+            else timelineData = await timelineRepository.getTimelinePostsSince(token, date);
 
             for (const data of timelineData) {
                 data.created_at = setIsoString(data.created_at);
             }
 
-            if (timelineData) {
-                return res.send(timelineData).status(200);
+            if (isFollowing && timelineData) {
+                return res.send({ tldata: timelineData, message: `No posts found from your friends` }).status(200);
             } else {
-                return res.sendStatus(404);
+                return res.send({ tldata: timelineData, message: `You don't follow anyone yet` }).status(404);
             }
 
         } catch (error) {
