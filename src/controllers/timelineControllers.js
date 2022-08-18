@@ -35,11 +35,15 @@ const timelineController = {
 
         try {
             const timelineData = await timelineRepository.getTimelinePosts(token);
+            const isFollowing = await timelineRepository.isFollowing(token);
 
-            if(timelineData){
-                return res.send(timelineData).status(200);
-            }else{
-                return res.sendStatus(404);
+            if(isFollowing && timelineData){
+                return res.send({tldata: timelineData}).status(200);
+            } else if(isFollowing && !timelineData) {
+                return res.send({tldata: timelineData, message: `No posts found from your friends`}).status(200);
+            }
+            else{
+                return res.send({tldata: timelineData, message: `You don't follow anyone yet`}).status(404);
             }
 
         } catch (error) {

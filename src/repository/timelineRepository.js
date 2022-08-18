@@ -43,6 +43,15 @@ const timelineRepository = {
         return rows;
     },
 
+    isFollowing: async (token) => {
+        const { rows } = await connection.query(`SELECT follows.id, follows.follower_id, follows.followed_id 
+        FROM follows
+        JOIN sessions ON sessions.user_id = follows.follower_id
+        WHERE sessions.token = $1`, [token]);
+
+        return rows.rowCount;
+    },
+
     updatePost: async (postId, postDescription) => {
         const updatedDescription = await connection.query(`UPDATE posts SET description = $1 WHERE id = $2`, [postDescription, postId]);
         console.log(updatedDescription);
