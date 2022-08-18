@@ -28,8 +28,11 @@ const timelineRepository = {
         const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
         posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
         likes.count AS "likes",
+        array_agg(follows.follower_id) AS followers,
         (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes",
-        (SELECT array_agg(json_build_object('author',users.name,'userId',users.id,'text', comments.text)) FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = posts.id ) AS "whoComments"
+
+        (SELECT array_agg(json_build_object('author',users.name,'userId',users.id,'text', comments.text, 'user_picture',users.picture_url)) FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = posts.id ) AS "whoComments"
+        
         FROM users 
         JOIN posts ON users.id = posts.user_id
 		JOIN follows ON follows.followed_id = users.id
