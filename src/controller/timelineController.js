@@ -42,6 +42,7 @@ const timelineController = {
             else timelineData = await timelineRepository.getTimelinePostsSince(token, date);
 
             for (const data of timelineData) {
+                console.log(data);
                 data.created_at = setIsoString(data.created_at);
             }
 
@@ -81,6 +82,7 @@ const timelineController = {
 }
 
 function setIsoString(data) {
+    console.log(data);
     const [, milliseconds] = new Date(data).toISOString().split(".");
     let millisecond = Number(milliseconds.slice(0, 3));
     millisecond += 1; //arredondando o millisecond pra cima pra evitar de chegar o proprio elemento

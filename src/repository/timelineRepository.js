@@ -25,7 +25,7 @@ const timelineRepository = {
 
     getTimelinePosts: async (token) => {
         const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
-        posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
+        posts.id AS "postId", posts.link_url AS "link", posts.created_at, posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
         likes.count AS "likes",
         (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes",
         (SELECT array_agg(json_build_object('author',users.name,'userId',users.id,'text', comments.text)) FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = posts.id ) AS "whoComments"
@@ -45,7 +45,7 @@ const timelineRepository = {
     getTimelinePostsSince: async (token, date) => {
         try {
             const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
-        posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
+        posts.id AS "postId", posts.link_url AS "link", posts.created_at, posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
         likes.count AS "likes",
         (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes",
         (SELECT array_agg(json_build_object('author',users.name,'userId',users.id,'text', comments.text)) FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = posts.id ) AS "whoComments"
@@ -65,6 +65,14 @@ const timelineRepository = {
         }
     },
 
+    isFollowing: async (token) => {
+        const { rows } = await connection.query(`SELECT follows.id, follows.follower_id, follows.followed_id 
+        FROM follows
+        JOIN sessions ON sessions.user_id = follows.follower_id
+        WHERE sessions.token = $1`, [token]);
+
+        return rows.rowCount;
+    },
 
     updatePost: async (postId, postDescription) => {
         const updatedDescription = await connection.query(`UPDATE posts SET description = $1 WHERE id = $2`, [postDescription, postId]);
