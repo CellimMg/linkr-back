@@ -30,9 +30,11 @@ const timelineController = {
     },
 
     getTimelinePosts: async (req, res) => {
+        const auth = req.headers.authorization;
+        const token = auth.split(" ")[1];
+
         try {
-            
-            const timelineData = await timelineRepository.getTimelinePosts();
+            const timelineData = await timelineRepository.getTimelinePosts(token);
 
             if(timelineData){
                 return res.send(timelineData).status(200);
