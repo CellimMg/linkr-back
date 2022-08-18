@@ -7,7 +7,6 @@ const timelineRepository = {
         if (rows.length > 0) {
             await connection.query(`INSERT INTO likes (user_id, post_id) VALUES ($1, $2)`, [postData.userId, rows[0].id]);
         }
-
     },
 
     saveHashtag: async (string, userId) => {
