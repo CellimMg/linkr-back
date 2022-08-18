@@ -70,7 +70,6 @@ const timelineRepository = {
         FROM follows
         JOIN sessions ON sessions.user_id = follows.follower_id
         WHERE sessions.token = $1`, [token]);
-
         return rows.rowCount;
     },
 
