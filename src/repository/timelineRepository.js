@@ -54,10 +54,10 @@ const timelineRepository = {
         return rows;
     },
 
-    getTimelinePostsSince: async (token, date) => {
+    getTimelinePostsSince: async (token, last) => {
         try {
             const { rows } = await connection.query(`SELECT users.id AS "userId", users.name AS "username", users.picture_url AS "userImage", 
-        posts.id AS "postId", posts.link_url AS "link", posts.created_at, posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
+        posts.id AS "postId", posts.link_url AS "link", posts.description, posts.url_title AS "urlTitle", posts.url_description AS "urlDescription", posts.url_image AS "urlImage",
         likes.count AS "likes",
         (SELECT array_agg(json_build_object('name',users.name,'id',users.id)) FROM likes JOIN users ON likes.user_id = users.id WHERE likes.post_id = posts.id) AS "whoLikes",
         (SELECT array_agg(json_build_object('author',users.name,'userId',users.id,'text', comments.text)) FROM comments JOIN users ON comments.author_id = users.id WHERE comments.post_id = posts.id ) AS "whoComments"
@@ -66,10 +66,10 @@ const timelineRepository = {
 		JOIN follows ON follows.followed_id = users.id
 		JOIN sessions ON follower_id = sessions.user_id
         LEFT JOIN likes ON posts.id = likes.post_id
-		WHERE sessions.token = $1 AND posts."created_at" > $2
+		WHERE sessions.token = $1 AND posts.id > $2
         GROUP BY users.id,posts.id
         ORDER BY posts.id DESC
-        LIMIT 20`, [token, date]);
+        LIMIT 20`, [token, last]);
             return rows;
         } catch (error) {
             console.log(error);
