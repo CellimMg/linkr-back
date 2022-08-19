@@ -99,6 +99,8 @@ const timelineRepository = {
     deletePost: async (postId) => {
         const deleteLikes = await connection.query(`DELETE FROM likes WHERE post_id = $1`, [postId]);
         const deleteComments = await connection.query(`DELETE FROM comments WHERE post_id = $1`,[postId]);
+        const deleteReposts = await connection.query(`DELETE FROM reposts WHERE original_post_id = $1`,[postId]);
+
         const deletePost = await connection.query(`DELETE FROM posts WHERE id = $1`, [postId]);
         if (deletePost.rowCount > 0) {
             return 204;
