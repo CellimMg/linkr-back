@@ -85,21 +85,22 @@ CREATE TABLE "follows" (
   OIDS=FALSE
 );
 
-<<<<<<< HEAD
 CREATE TABLE "comments" (
 	"id" serial NOT NULL,
 	"author_id" integer NOT NULL,
 	"post_id" integer NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "comments_pk" PRIMARY KEY ("id")
-=======
+)WITH (
+  OIDS=FALSE
+);
+
 CREATE TABLE "reposts" (
 	"id" serial NOT NULL,
 	"repost_user_id" integer NOT NULL,
 	"post_id" integer NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "reposts_pk" PRIMARY KEY ("id")
->>>>>>> 85cc99d7fd8e6221693a14c94e1324899654471d
 ) WITH (
   OIDS=FALSE
 );
