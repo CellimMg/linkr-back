@@ -85,12 +85,21 @@ CREATE TABLE "follows" (
   OIDS=FALSE
 );
 
+<<<<<<< HEAD
 CREATE TABLE "comments" (
 	"id" serial NOT NULL,
 	"author_id" integer NOT NULL,
 	"post_id" integer NOT NULL,
 	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "comments_pk" PRIMARY KEY ("id")
+=======
+CREATE TABLE "reposts" (
+	"id" serial NOT NULL,
+	"repost_user_id" integer NOT NULL,
+	"post_id" integer NOT NULL,
+	"created_at" TIMESTAMP NOT NULL DEFAULT 'NOW()',
+	CONSTRAINT "reposts_pk" PRIMARY KEY ("id")
+>>>>>>> 85cc99d7fd8e6221693a14c94e1324899654471d
 ) WITH (
   OIDS=FALSE
 );
@@ -112,10 +121,15 @@ ALTER TABLE "hashtags-posts" ADD CONSTRAINT "hashtags-posts_fk1" FOREIGN KEY ("p
 ALTER TABLE "follows" ADD CONSTRAINT "follows_fk0" FOREIGN KEY ("follower_id") REFERENCES "users"("id");
 ALTER TABLE "follows" ADD CONSTRAINT "follows_fk1" FOREIGN KEY ("followed_id") REFERENCES "users"("id");
 
+<<<<<<< HEAD
 ALTER TABLE "comments" ADD CONSTRAINT "comments_fk0" FOREIGN KEY ("author_id") REFERENCES "users"("id");
 ALTER TABLE "comments" ADD CONSTRAINT "comments_fk1" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
 
 
+=======
+ALTER TABLE "reposts" ADD CONSTRAINT "reposts_fk0" FOREIGN KEY ("post_id") REFERENCES "posts"("id");
+>>>>>>> 85cc99d7fd8e6221693a14c94e1324899654471d
 
+ALTER TABLE "posts" ADD "reposted" boolean NOT NULL DEFAULT 'false';
 
 
