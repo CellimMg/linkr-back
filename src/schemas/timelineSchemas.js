@@ -5,7 +5,10 @@ const validateTimelinePostSchema = Joi.object().keys({
     userImage: Joi.string().uri().required(),
     username: Joi.string().min(3).required(),
     description: Joi.string().min(0),
-    link: Joi.string().uri().required()
+    link: Joi.string().uri().required(),
+    reposted: Joi.boolean().optional(),
+    repostUserId: Joi.number().optional(),
+    postId: Joi.number().optional()
 });
 
 const validateUpdatePostSchema = Joi.object().keys({
