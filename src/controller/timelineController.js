@@ -32,19 +32,14 @@ const timelineController = {
     getTimelinePosts: async (req, res) => {
         const auth = req.headers.authorization;
         const token = auth.split(" ")[1];
-        const { date } = req.query;
+        const { last } = req.query;
 
         try {
             let timelineData;
             const isFollowing = await timelineRepository.isFollowing(token);
 
-            if (!date) timelineData = await timelineRepository.getTimelinePosts(token);
-            else timelineData = await timelineRepository.getTimelinePostsSince(token, date);
-
-            for (const data of timelineData) {
-                console.log(data);
-                data.created_at = setIsoString(data.created_at);
-            }
+            if (!last) timelineData = await timelineRepository.getTimelinePosts(token);
+            else timelineData = await timelineRepository.getTimelinePostsSince(token, last);
 
             if (isFollowing && timelineData) {
                 return res.send({ tldata: timelineData, message: `No posts found from your friends` }).status(200);
@@ -81,16 +76,5 @@ const timelineController = {
     }
 }
 
-function setIsoString(data) {
-    console.log(data);
-    const [, milliseconds] = new Date(data).toISOString().split(".");
-    let millisecond = Number(milliseconds.slice(0, 3));
-    millisecond += 1; //arredondando o millisecond pra cima pra evitar de chegar o proprio elemento
-    const dateTime = new Date(data).toLocaleString();
-    const [date, time] = dateTime.split(" ");
-    const [day, month, year] = date.split("/");
-    const [hour, minute, second] = time.split(":");
-    return `${year}-${month}-${day}T${hour}:${minute}:${second}.${millisecond}Z`;
-}
 
 export default timelineController;
