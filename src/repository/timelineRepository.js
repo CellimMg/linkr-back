@@ -49,9 +49,7 @@ const timelineRepository = {
         LEFT JOIN likes ON posts.id = likes.post_id
 		WHERE sessions.token = $1
         GROUP BY users.id,posts.id
-        ORDER BY posts.id DESC
-        LIMIT 20`, [token]);
-
+        ORDER BY posts.id DESC;`, [token]);
         return rows;
     },
 
@@ -69,8 +67,7 @@ const timelineRepository = {
         LEFT JOIN likes ON posts.id = likes.post_id
 		WHERE sessions.token = $1 AND posts.id > $2
         GROUP BY users.id,posts.id
-        ORDER BY posts.id DESC
-        LIMIT 20`, [token, last]);
+        ORDER BY posts.id DESC`, [token, last]);
             return rows;
         } catch (error) {
             console.log(error);
@@ -106,6 +103,7 @@ const timelineRepository = {
             return 404;
         }
     }
+
 }
 
 export default timelineRepository;
